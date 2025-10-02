@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kartik Rajput Locker Bot</title>
+  <style>
+    body { font-family: Arial; background: linear-gradient(to right, #9932CC, #FF00FF); }
+    .container { max-width: 600px; margin: 80px auto; background: rgba(0,0,0,0.6); border-radius: 15px; padding: 30px; color: white; }
+    button { width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: 6px; background: #fc23b2; color: white; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>(Kartik Rajput Locker Bot)</h1>
+    <form id="botForm" enctype="multipart/form-data">
+      <label>Upload appstate.json:</label>
+      <input type="file" name="appstate" accept=".json" required /><br><br>
+      <label>Prefix:</label>
+      <input type="text" name="prefix" required /><br><br>
+      <label>Admin ID:</label>
+      <input type="text" name="adminID" required /><br><br>
+      <button type="submit" onclick="startBot()">Start Bot</button>
+      <button type="button" onclick="stopBot()">Stop Bot</button>
+      <div id="status">Status: OFF</div>
+    </form>
+  </div>
+  <script>
+    async function startBot() {
+      const form = document.getElementById('botForm');
+      const formData = new FormData(form);
+      const status = document.getElementById('status');
+      const response = await fetch('/start-bot', { method: 'POST', body: formData });
+      const result = await response.json();
+      status.innerText = response.ok ? 'Status: ON' : 'Status: ERROR';
+      alert(result.message);
+    }
+    async function stopBot() {
+      const status = document.getElementById('status');
+      const response = await fetch('/stop-bot', { method: 'POST' });
+      const result = await response.json();
+      status.innerText = response.ok ? 'Status: OFF' : 'Status: ERROR';
+      alert(result.message);
+    }
+  </script>
+</body>
+</html>
